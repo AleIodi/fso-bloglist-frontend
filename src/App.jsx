@@ -5,14 +5,18 @@ import Login from './components/Login'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import './index.css'
+import NewNote from './components/NewNote'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
   const [className, setClassName] = useState('')
+  const [title, setTitle] = useState('')
+  const [author, setAuthor] = useState('')
+  const [url, setUrl] = useState('')
 
 
   useEffect(() => {
@@ -32,7 +36,6 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
     try {
       const user = await loginService.login({ username, password })
       blogService.setToken(user.token)
@@ -48,8 +51,11 @@ const App = () => {
         setErrorMessage(null)
         setClassName('')
       }, 5000)
-    } catch {
-      setErrorMessage('wrong credentials')
+    } catch (exception) {
+      const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
+        ? exception.response.data.error
+        : 'Wrong credentials'
+      setErrorMessage(serverErrorMessage)
       setClassName('error')
       setTimeout(() => {
         setErrorMessage(null)
@@ -62,6 +68,27 @@ const App = () => {
     window.localStorage.removeItem('loggedBloglistUser')
     setUser(null)
     blogService.setToken(null)
+  }
+
+  const handleNewBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const blog = await blogService.create({ title, author, url })
+      setBlogs(blogs.concat(blog))
+      setTitle('')
+      setAuthor('')
+      setUrl('')
+    } catch (exception) {
+      const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
+        ? exception.response.data.error
+        : 'Failed to create new blog'
+      setErrorMessage(serverErrorMessage)
+      setClassName('error')
+      setTimeout(() => {
+        setErrorMessage(null)
+        setClassName('')
+      }, 5000)
+    }
   }
 
   return (
@@ -81,6 +108,16 @@ const App = () => {
       ) : (
         <div>
           <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
+          <h2>Create New</h2>
+          <NewNote
+            onSubmit={handleNewBlog}
+            title={title}
+            setTitle={setTitle}
+            author={author}
+            setAuthor={setAuthor}
+            url={url}
+            setUrl={setUrl}
+          />
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}
