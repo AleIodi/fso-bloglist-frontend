@@ -78,6 +78,12 @@ const App = () => {
       setTitle('')
       setAuthor('')
       setUrl('')
+      setErrorMessage(`a new blog ${blog.title} by ${blog.author} added`)
+      setClassName('success')
+      setTimeout(() => {
+        setErrorMessage(null)
+        setClassName('')
+      }, 5000)
     } catch (exception) {
       const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
         ? exception.response.data.error
