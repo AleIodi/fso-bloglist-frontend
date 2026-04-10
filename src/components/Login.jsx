@@ -1,7 +1,19 @@
-const Login = ({ onSubmit, username, setUsername, password, setPassword }) => {
+import { useState } from 'react'
+
+const Login = ({ onSubmit }) => {
+	const [username, setUsername] = useState('')
+	const [password, setPassword] = useState('')
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		onSubmit({ username, password })
+		setUsername('')
+		setPassword('')
+	}
+
 	return (
 		<div>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={handleSubmit}>
 				<div>
 					<label>
 						username

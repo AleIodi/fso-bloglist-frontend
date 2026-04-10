@@ -1,8 +1,22 @@
-const NewNote = ({ onSubmit, title, setTitle, author, setAuthor, url, setUrl }) => {
+import { useState } from 'react'
+
+const NewNote = ({ onSubmit }) => {
+	const [title, setTitle] = useState('')
+	const [author, setAuthor] = useState('')
+	const [url, setUrl] = useState('')
+
+	const handleSubmit = (event) => {
+		event.preventDefault()
+		onSubmit({ title, author, url })
+		setTitle('')
+		setAuthor('')
+		setUrl('')
+	}
+
 	return (
 		<div>
 			<h2>Create New</h2>
-			<form onSubmit={onSubmit}>
+			<form onSubmit={handleSubmit}>
 				<div>
 					<label>
 						title

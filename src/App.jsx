@@ -10,16 +10,19 @@ import Toggable from './components/Toggable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [className, setClassName] = useState('')
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const blogFormRef = useRef()
 
+  const notify = (message, type = 'success') => {
+    setErrorMessage(message)
+    setClassName(type)
+    setTimeout(() => {
+      setErrorMessage(null)
+      setClassName('')
+    }, 5000)
+  }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -36,33 +39,23 @@ const App = () => {
     }
   }, [])
 
-  const handleLogin = async (event) => {
-    event.preventDefault()
+  const handleLogin = async (userToLogin) => {
     try {
-      const user = await loginService.login({ username, password })
+      const user = await loginService.login(userToLogin)
       blogService.setToken(user.token)
       window.localStorage.setItem(
         'loggedBloglistUser', JSON.stringify(user)
       )
+
       setUser(user)
-      setUsername('')
-      setPassword('')
-      setErrorMessage('login successful')
-      setClassName('success')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setClassName('')
-      }, 5000)
+
+      notify('login successful')
     } catch (exception) {
       const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
         ? exception.response.data.error
         : 'Wrong credentials'
-      setErrorMessage(serverErrorMessage)
-      setClassName('error')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setClassName('')
-      }, 5000)
+
+      notify(serverErrorMessage, 'error')
     }
   }
 
@@ -72,31 +65,20 @@ const App = () => {
     blogService.setToken(null)
   }
 
-  const handleNewBlog = async (event) => {
-    event.preventDefault()
+  const handleNewBlog = async (newBlog) => {
     try {
-      const blog = await blogService.create({ title, author, url })
+      const blog = await blogService.create(newBlog)
       setBlogs(blogs.concat(blog))
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-      setErrorMessage(`a new blog ${blog.title} by ${blog.author} added`)
-      setClassName('success')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setClassName('')
-      }, 5000)
+
+      notify(`a new blog ${blog.title} by ${blog.author} added`)
+
       blogFormRef.current.toggleVisibility()
     } catch (exception) {
       const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
         ? exception.response.data.error
         : 'Failed to create new blog'
-      setErrorMessage(serverErrorMessage)
-      setClassName('error')
-      setTimeout(() => {
-        setErrorMessage(null)
-        setClassName('')
-      }, 5000)
+
+      notify(serverErrorMessage, 'error')
     }
   }
 
@@ -109,10 +91,6 @@ const App = () => {
       {!user ? (
         <Login
           onSubmit={handleLogin}
-          username={username}
-          setUsername={setUsername}
-          password={password}
-          setPassword={setPassword}
         />
       ) : (
         <div>
@@ -120,12 +98,6 @@ const App = () => {
           <Toggable ref={blogFormRef}>
             <NewNote
               onSubmit={handleNewBlog}
-              title={title}
-              setTitle={setTitle}
-              author={author}
-              setAuthor={setAuthor}
-              url={url}
-              setUrl={setUrl}
             />
           </Toggable>
           {blogs.map(blog =>
