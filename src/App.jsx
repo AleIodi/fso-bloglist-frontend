@@ -25,9 +25,15 @@ const App = () => {
   }
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
+    async function fetchData() {
+      try {
+        const blogs = await blogService.getAll()
+        setBlogs(blogs)
+      } catch (exception) {
+        notify('Failed to fetch blogs', 'error')
+      }
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
@@ -113,9 +119,11 @@ const App = () => {
               onSubmit={handleNewBlog}
             />
           </Toggable>
-          {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} likeBlog={handleLike} />
-          )}
+          {blogs
+            .sort((a, b) => b.likes - a.likes)
+            .map(blog =>
+              <Blog key={blog.id} blog={blog} likeBlog={handleLike} />
+            )}
         </div>
       )}
     </div>
