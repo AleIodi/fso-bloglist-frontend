@@ -82,6 +82,19 @@ const App = () => {
     }
   }
 
+  const handleLike = async (id, blogToLike) => {
+    try {
+      const response = await blogService.update(id, blogToLike)
+      setBlogs(blogs.map(b => b.id === id ? response : b))
+    } catch (exception) {
+      const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
+        ? exception.response.data.error
+        : 'Failed to like the blog'
+
+      console.error(serverErrorMessage)
+    }
+  }
+
   return (
     <div>
       <h2>{user === null ? 'log in to application' : 'Blogs'}</h2>
@@ -101,7 +114,7 @@ const App = () => {
             />
           </Toggable>
           {blogs.map(blog =>
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} likeBlog={handleLike} />
           )}
         </div>
       )}
