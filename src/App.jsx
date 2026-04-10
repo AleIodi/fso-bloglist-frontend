@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
@@ -6,6 +6,7 @@ import loginService from './services/login'
 import Notification from './components/Notification'
 import './index.css'
 import NewNote from './components/NewNote'
+import Toggable from './components/Toggable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +18,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const blogFormRef = useRef()
 
 
   useEffect(() => {
@@ -84,6 +86,7 @@ const App = () => {
         setErrorMessage(null)
         setClassName('')
       }, 5000)
+      blogFormRef.current.toggleVisibility()
     } catch (exception) {
       const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
         ? exception.response.data.error
@@ -114,16 +117,17 @@ const App = () => {
       ) : (
         <div>
           <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
-          <h2>Create New</h2>
-          <NewNote
-            onSubmit={handleNewBlog}
-            title={title}
-            setTitle={setTitle}
-            author={author}
-            setAuthor={setAuthor}
-            url={url}
-            setUrl={setUrl}
-          />
+          <Toggable ref={blogFormRef}>
+            <NewNote
+              onSubmit={handleNewBlog}
+              title={title}
+              setTitle={setTitle}
+              author={author}
+              setAuthor={setAuthor}
+              url={url}
+              setUrl={setUrl}
+            />
+          </Toggable>
           {blogs.map(blog =>
             <Blog key={blog.id} blog={blog} />
           )}

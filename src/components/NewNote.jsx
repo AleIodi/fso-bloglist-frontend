@@ -1,6 +1,7 @@
 const NewNote = ({ onSubmit, title, setTitle, author, setAuthor, url, setUrl }) => {
 	return (
 		<div>
+			<h2>Create New</h2>
 			<form onSubmit={onSubmit}>
 				<div>
 					<label>
