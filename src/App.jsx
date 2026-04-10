@@ -97,7 +97,26 @@ const App = () => {
         ? exception.response.data.error
         : 'Failed to like the blog'
 
-      console.error(serverErrorMessage)
+      notify(serverErrorMessage, 'error')
+    }
+  }
+
+  const handleDelete = async (id) => {
+    const blog = blogs.find(b => b.id === id)
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
+      try {
+        await blogService.remove(id)
+        
+        setBlogs(blogs.filter(b => b.id !== id))
+
+        notify('Blog deleted')
+      } catch (exception) {
+        const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
+          ? exception.response.data.error
+          : 'Failed to delete the blog'
+
+        notify(serverErrorMessage, 'error')
+      }
     }
   }
 
@@ -119,10 +138,10 @@ const App = () => {
               onSubmit={handleNewBlog}
             />
           </Toggable>
-          {blogs
+          {[...blogs]
             .sort((a, b) => b.likes - a.likes)
             .map(blog =>
-              <Blog key={blog.id} blog={blog} likeBlog={handleLike} />
+              <Blog key={blog.id} blog={blog} likeBlog={handleLike} deleteBlog={handleDelete} user={user} />
             )}
         </div>
       )}
