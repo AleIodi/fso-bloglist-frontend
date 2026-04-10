@@ -1,4 +1,4 @@
-import { useState, useImperativeHandle } from 'react'
+import { useState } from 'react'
 
 const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
   const [visible, setVisible] = useState(false)
@@ -30,9 +30,8 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
           <p>{blog.url}</p>
           <p>likes {blog.likes} <button onClick={handleLike}>like</button></p>
           <p>{blog.user?.name}</p>
-          {user.id}
           {user.username===blog.user.username && (
-            <p><button onClick={()=>deleteBlog(blog.id)}>delete</button></p>
+            <p><button onClick={() => deleteBlog(blog.id)}>delete</button></p>
           )}
         </div>
       )

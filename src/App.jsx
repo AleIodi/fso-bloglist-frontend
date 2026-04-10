@@ -29,7 +29,7 @@ const App = () => {
       try {
         const blogs = await blogService.getAll()
         setBlogs(blogs)
-      } catch (exception) {
+      } catch {
         notify('Failed to fetch blogs', 'error')
       }
     }
@@ -106,7 +106,7 @@ const App = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)) {
       try {
         await blogService.remove(id)
-        
+
         setBlogs(blogs.filter(b => b.id !== id))
 
         notify('Blog deleted')
