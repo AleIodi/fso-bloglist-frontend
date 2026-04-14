@@ -1,1 +1,1 @@
-**Link of the repositoriy with the completed exercises from 5.17 to 5.23:** [https://github.com/AleIodi/fso-bloglist-test](https://github.com/AleIodi/fso-bloglist-test)
+**Link of the repositoriy with the completed exercises from 5.17 to 5.23:** [[https://github.com/AleIodi/fso-bloglist-test](https://github.com/AleIodi/fso-bloglist-test)](https://github.com/AleIodi/fso-bloglist-test/tree/main/tests)
