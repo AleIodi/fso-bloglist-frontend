@@ -2,9 +2,9 @@ import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import NewNote from './NewNote'
 
-test('<NewNote /> form calls the event handler with the correct data', async ()=> {
+test('<NewNote /> form calls the event handler with the correct data', async () => {
   const submitHandler = vi.fn()
-  
+
   render(<NewNote onSubmit={submitHandler} />)
 
   const user = userEvent.setup()

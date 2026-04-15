@@ -29,7 +29,7 @@ describe('<Toggable />', () => {
     expect(element).toBeVisible()
   })
 
-   test('toggled content can be closed', async () => {
+  test('toggled content can be closed', async () => {
     const user = userEvent.setup()
     const button = screen.getByText('create new blog')
     await user.click(button)

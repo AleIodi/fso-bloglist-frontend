@@ -28,11 +28,14 @@ const Blog = ({ blog, likeBlog, deleteBlog, user }) => {
       {visible && (
         <div>
           <p>{blog.url}</p>
-          <p>likes {blog.likes} <button onClick={handleLike}>like</button></p>
-          <p>{blog.user?.name}</p>
-          {user.username===blog.user.username && (
-            <p><button onClick={() => deleteBlog(blog.id)}>delete</button></p>
-          )}
+
+          <div>
+            <p>likes {blog.likes}{user && (<button onClick={handleLike}>like</button>)}</p>
+            <p>{blog.user?.name}</p>
+            {user && user.username === blog.user.username && (
+              <p><button onClick={() => deleteBlog(blog.id)}>delete</button></p>
+            )}
+          </div>
         </div>
       )
       }

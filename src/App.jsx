@@ -7,6 +7,11 @@ import Notification from './components/Notification'
 import './index.css'
 import NewNote from './components/NewNote'
 import Toggable from './components/Toggable'
+import BlogList from './components/BlogList'
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -120,31 +125,45 @@ const App = () => {
     }
   }
 
+  const padding = {
+    padding: 5
+  }
+
   return (
     <div>
-      <h2>{user === null ? 'log in to application' : 'Blogs'}</h2>
+      <h2>Blogs</h2>
 
       <Notification message={errorMessage} className={className} />
-
-      {!user ? (
+      <Router>
+        <div>
+          <Link style={padding} to="/">blogs</Link>
+          {!user ? (
+            <Link style={padding} to="/login">login</Link>
+          ) : (
+            <button onClick={handleLogout}>Logout</button>
+          )
+          }
+        </div>
+        <Routes>
+          <Route path="/login" element={
+            <Login
+              onSubmit={handleLogin}
+            />
+          } />
+          <Route path="/" element={<BlogList blogs={[...blogs]} likeBlog={handleLike} deleteBlog={handleDelete} user={user} />} />
+        </Routes>
+      </Router>
+      {/* {!user ? (
         <Login
           onSubmit={handleLogin}
         />
-      ) : (
-        <div>
-          <p>{user.name} logged in <button onClick={handleLogout}>Logout</button></p>
-          <Toggable ref={blogFormRef}>
+      ) : ( */}
+      {/* <Toggable ref={blogFormRef}>
             <NewNote
               onSubmit={handleNewBlog}
             />
-          </Toggable>
-          {[...blogs]
-            .sort((a, b) => b.likes - a.likes)
-            .map(blog =>
-              <Blog key={blog.id} blog={blog} likeBlog={handleLike} deleteBlog={handleDelete} user={user} />
-            )}
-        </div>
-      )}
+          </Toggable> */}
+      {/* )} */}
     </div>
   )
 }

@@ -31,12 +31,12 @@ test('<Blog /> renders the blog url and likes are displayed when clicking show b
     url: 'paperino',
     likes: 1,
     user: {
-	username: 'a'
+      username: 'a'
     }
   }
 
   const usern = {
-	username: 'a'
+    username: 'a'
   }
 
   render(<Blog blog={blog} user={usern} />)
@@ -64,12 +64,12 @@ test('like button is clicked twice', async () => {
     url: 'paperino',
     likes: 1,
     user: {
-	username: 'a'
+      username: 'a'
     }
   }
 
   const usern = {
-	username: 'a'
+    username: 'a'
   }
 
   const likeHandler = vi.fn()
