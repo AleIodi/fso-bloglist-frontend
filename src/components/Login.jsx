@@ -1,3 +1,4 @@
+import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -19,32 +20,35 @@ const Login = ({ onSubmit }) => {
 
   return (
     <div>
+      <h2>Login to application</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
-						username
-            <input
-              type="text"
-              disabled={isLoading}
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
-              name="Username"
-            />
-          </label>
+          <TextField required label="username" variant="standard" slotProps={{
+            input: {
+              readOnly:  isLoading ,
+            },
+          }} value={username}
+            onChange={({ target }) => setUsername(target.value)}
+            name="Username"
+            margin="dense" />
         </div>
         <div>
-          <label>
-						password
-            <input
-              type="password"
-              disabled={isLoading}
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
-              name="Password"
-            />
-          </label>
+          <TextField
+            required
+            label="password"
+            type="password"
+            autoComplete="current-password"
+            variant="standard"
+            slotProps={{
+              input: {
+                readOnly:  isLoading ,
+              },
+            }} value={password}
+            onChange={({ target }) => setPassword(target.value)}
+            name="Password"
+            margin="dense" />
         </div>
-        <button disabled={isLoading || !username || !password} type="submit">login</button>
+          <Button variant="contained" type="submit">LOGIN</Button>
       </form>
     </div>
   )

@@ -137,9 +137,6 @@ const App = () => {
 
   return (
     <div>
-      <h2>Blogs</h2>
-
-      <Notification message={errorMessage} className={className} />
       <div>
         <Link style={padding} to="/">blogs</Link>
         {!user ? (
@@ -152,6 +149,7 @@ const App = () => {
         )
         }
       </div>
+      <Notification message={errorMessage} className={className} />
       <Routes>
         <Route path="/login" element={
           <Login

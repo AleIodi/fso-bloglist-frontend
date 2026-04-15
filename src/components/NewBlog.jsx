@@ -1,3 +1,4 @@
+import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -21,39 +22,42 @@ const NewBlog = ({ onSubmit }) => {
       <h2>Create New</h2>
       <form onSubmit={handleSubmit}>
         <div>
-          <label>
-						title
-            <input
-              type="text"
-              value={title}
-              name="Title"
-              onChange={({ target }) => setTitle(target.value)}
-            />
-          </label>
+          <TextField
+            sx={{ width: 500 }}
+            required
+            label="title"
+            variant="outlined"
+            value={title}
+            size="small"
+            margin="dense"
+            onChange={({ target }) => setTitle(target.value)}
+            name="Title" />
         </div>
         <div>
-          <label>
-						author
-            <input
-              type="text"
-              value={author}
-              name="Author"
-              onChange={({ target }) => setAuthor(target.value)}
-            />
-          </label>
+          <TextField
+            sx={{ width: 500 }}
+            required
+            label="author"
+            variant="outlined"
+            value={author}
+            size="small"
+            margin="dense"
+            onChange={({ target }) => setAuthor(target.value)}
+            name="Author" />
         </div>
         <div>
-          <label>
-						url
-            <input
-              type="text"
-              value={url}
-              name="Url"
-              onChange={({ target }) => setUrl(target.value)}
-            />
-          </label>
+          <TextField
+            sx={{ width: 500 }}
+            required
+            label="url"
+            variant="outlined"
+            value={url}
+            size="small"
+            margin="dense"
+            onChange={({ target }) => setUrl(target.value)}
+            name="Url" />
         </div>
-        <button type="submit">create</button>
+        <Button sx={{ marginTop: '1em' }} variant="contained" type="submit">CREATE</Button>
       </form>
     </div>
   )
