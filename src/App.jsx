@@ -9,11 +9,12 @@ import NewBlog from './components/NewBlog'
 import Toggable from './components/Toggable'
 import BlogList from './components/BlogList'
 import {
-  Routes, Route, Link,
+  Routes, Route, NavLink,
   useMatch,
-  useNavigate
+  useNavigate,
 } from 'react-router-dom'
 import BlogDetails from './components/BlogDetails'
+import { AppBar, Button, Toolbar, Typography } from '@mui/material'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -131,24 +132,36 @@ const App = () => {
     }
   }
 
-  const padding = {
-    padding: 5
-  }
+  const style = { '&:hover': { bgcolor: 'rgba(255,255,255,0.3)' } }
 
   return (
     <div>
-      <div>
-        <Link style={padding} to="/">blogs</Link>
-        {!user ? (
-          <Link style={padding} to="/login">login</Link>
-        ) : (
-          <>
-            <Link style={padding} to="/newBlog">new blog</Link>
-            <button onClick={handleLogout}>Logout</button>
-          </>
-        )
-        }
-      </div>
+      <AppBar position="static">
+        <Toolbar disableGutters>
+          <Typography sx={{ ml: 4, flexGrow: 1 }} variant="h6" component="div">
+            Blog App
+          </Typography>
+          <Button color="inherit" component={NavLink} to="/" sx={ style } style={({ isActive }) => ({
+            borderBottom: isActive ? "2px solid white" : "none",
+            fontWeight: isActive ? "bold" : "normal",
+          })}>BLOGS</Button>
+          {!user ? (
+            <Button color="inherit" component={NavLink} to="/login" style={({ isActive }) => ({
+                borderBottom: isActive ? "2px solid white" : "none",
+                fontWeight: isActive ? "bold" : "normal",
+              })} sx={{ mr: 4, ...style }}>LOGIN</Button>
+          ) : (
+            <>
+              <Button color="inherit" component={NavLink} to="/newBlog" sx={ style } style={({ isActive }) => ({
+                borderBottom: isActive ? "2px solid white" : "none",
+                fontWeight: isActive ? "bold" : "normal",
+              })}>NEW BLOG</Button>
+              <Button onClick={handleLogout} color="inherit" sx={{ mr: 4, ...style }}>LOGOUT</Button>
+            </>
+          )
+          }
+        </Toolbar>
+      </AppBar>
       <Notification message={errorMessage} className={className} />
       <Routes>
         <Route path="/login" element={

@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const BlogList = ({ blogs }) => {
   return (
@@ -8,7 +8,7 @@ const BlogList = ({ blogs }) => {
         {
           blogs.sort((a, b) => b.likes - a.likes)
             .map(blog =>
-              <li key={blog.id}><Link to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</Link></li>
+              <li key={blog.id}><NavLink to={`/blogs/${blog.id}`}>{blog.title} {blog.author}</NavLink></li>
             )
         }
       </ul>

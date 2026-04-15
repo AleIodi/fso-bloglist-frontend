@@ -30,7 +30,7 @@ const Login = ({ onSubmit }) => {
           }} value={username}
             onChange={({ target }) => setUsername(target.value)}
             name="Username"
-            margin="dense" />
+          />
         </div>
         <div>
           <TextField
@@ -46,9 +46,9 @@ const Login = ({ onSubmit }) => {
             }} value={password}
             onChange={({ target }) => setPassword(target.value)}
             name="Password"
-            margin="dense" />
+           />
         </div>
-          <Button variant="contained" type="submit">LOGIN</Button>
+          <Button sx={{mt: 2}} variant="contained" type="submit">LOGIN</Button>
       </form>
     </div>
   )
