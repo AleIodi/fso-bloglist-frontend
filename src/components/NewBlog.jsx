@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-const NewNote = ({ onSubmit }) => {
+const NewBlog = ({ onSubmit }) => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -11,6 +13,7 @@ const NewNote = ({ onSubmit }) => {
     setTitle('')
     setAuthor('')
     setUrl('')
+    navigate('/')
   }
 
   return (
@@ -56,4 +59,4 @@ const NewNote = ({ onSubmit }) => {
   )
 }
 
-export default NewNote
+export default NewBlog

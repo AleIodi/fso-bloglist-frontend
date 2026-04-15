@@ -1,11 +1,11 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import Login from './components/Login'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import './index.css'
-import NewNote from './components/NewNote'
+import NewBlog from './components/NewBlog'
 import Toggable from './components/Toggable'
 import BlogList from './components/BlogList'
 import {
@@ -20,7 +20,6 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [className, setClassName] = useState('')
-  const blogFormRef = useRef()
   const match = useMatch('/blogs/:id')
   const blog = match
     ? blogs.find(blog => blog.id === match.params.id)
@@ -91,7 +90,6 @@ const App = () => {
 
       notify(`a new blog ${blog.title} by ${blog.author} added`)
 
-      blogFormRef.current.toggleVisibility()
     } catch (exception) {
       const serverErrorMessage = exception.response && exception.response.data && exception.response.data.error
         ? exception.response.data.error
@@ -147,7 +145,10 @@ const App = () => {
         {!user ? (
           <Link style={padding} to="/login">login</Link>
         ) : (
-          <button onClick={handleLogout}>Logout</button>
+          <>
+            <Link style={padding} to="/newBlog">new blog</Link>
+            <button onClick={handleLogout}>Logout</button>
+          </>
         )
         }
       </div>
@@ -166,14 +167,12 @@ const App = () => {
             user={user}
           />
         } />
+        <Route path="/newBlog" element={<NewBlog onSubmit={handleNewBlog} />} />
       </Routes>
 
       {/* <Toggable ref={blogFormRef}>
-            <NewNote
-              onSubmit={handleNewBlog}
-            />
           </Toggable> */}
-      {/* )} */}
+
     </div>
   )
 }
