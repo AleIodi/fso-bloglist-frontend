@@ -9,9 +9,11 @@ import NewNote from './components/NewNote'
 import Toggable from './components/Toggable'
 import BlogList from './components/BlogList'
 import {
-  BrowserRouter as Router,
-  Routes, Route, Link
+  Routes, Route, Link,
+  useMatch,
+  useNavigate
 } from 'react-router-dom'
+import BlogDetails from './components/BlogDetails'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -19,6 +21,11 @@ const App = () => {
   const [errorMessage, setErrorMessage] = useState(null)
   const [className, setClassName] = useState('')
   const blogFormRef = useRef()
+  const match = useMatch('/blogs/:id')
+  const blog = match
+    ? blogs.find(blog => blog.id === match.params.id)
+    : null
+  const navigate = useNavigate()
 
   const notify = (message, type = 'success') => {
     setErrorMessage(message)
@@ -74,6 +81,7 @@ const App = () => {
     window.localStorage.removeItem('loggedBloglistUser')
     setUser(null)
     blogService.setToken(null)
+    navigate('/')
   }
 
   const handleNewBlog = async (newBlog) => {
@@ -134,30 +142,32 @@ const App = () => {
       <h2>Blogs</h2>
 
       <Notification message={errorMessage} className={className} />
-      <Router>
-        <div>
-          <Link style={padding} to="/">blogs</Link>
-          {!user ? (
-            <Link style={padding} to="/login">login</Link>
-          ) : (
-            <button onClick={handleLogout}>Logout</button>
-          )
-          }
-        </div>
-        <Routes>
-          <Route path="/login" element={
-            <Login
-              onSubmit={handleLogin}
-            />
-          } />
-          <Route path="/" element={<BlogList blogs={[...blogs]} likeBlog={handleLike} deleteBlog={handleDelete} user={user} />} />
-        </Routes>
-      </Router>
-      {/* {!user ? (
-        <Login
-          onSubmit={handleLogin}
-        />
-      ) : ( */}
+      <div>
+        <Link style={padding} to="/">blogs</Link>
+        {!user ? (
+          <Link style={padding} to="/login">login</Link>
+        ) : (
+          <button onClick={handleLogout}>Logout</button>
+        )
+        }
+      </div>
+      <Routes>
+        <Route path="/login" element={
+          <Login
+            onSubmit={handleLogin}
+          />
+        } />
+        <Route path="/" element={<BlogList blogs={[...blogs]} />} />
+        <Route path="/blogs/:id" element={
+          <BlogDetails
+            blog={blog}
+            likeBlog={handleLike}
+            deleteBlog={handleDelete}
+            user={user}
+          />
+        } />
+      </Routes>
+
       {/* <Toggable ref={blogFormRef}>
             <NewNote
               onSubmit={handleNewBlog}
