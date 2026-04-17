@@ -1,4 +1,4 @@
-import { Alert } from "@mui/material"
+import { Alert } from '@mui/material'
 
 const Notification = ({ message, className }) => {
   if (message === null) {
@@ -6,7 +6,7 @@ const Notification = ({ message, className }) => {
   }
 
   return (
-    <Alert sx={{mt: 3}} severity={ className }>{message}</Alert>
+    <Alert sx={{ mt: 3 }} severity={ className }>{message}</Alert>
   )
 }
 

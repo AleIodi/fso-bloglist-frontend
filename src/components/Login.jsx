@@ -1,12 +1,10 @@
 import { Button, TextField } from '@mui/material'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 const Login = ({ onSubmit }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const navigate = useNavigate()
 
   const handleSubmit = (event) => {
     event.preventDefault()
@@ -15,7 +13,6 @@ const Login = ({ onSubmit }) => {
     setIsLoading(false)
     setUsername('')
     setPassword('')
-    navigate('/')
   }
 
   return (
@@ -28,8 +25,8 @@ const Login = ({ onSubmit }) => {
               readOnly:  isLoading ,
             },
           }} value={username}
-            onChange={({ target }) => setUsername(target.value)}
-            name="Username"
+          onChange={({ target }) => setUsername(target.value)}
+          name="Username"
           />
         </div>
         <div>
@@ -46,9 +43,9 @@ const Login = ({ onSubmit }) => {
             }} value={password}
             onChange={({ target }) => setPassword(target.value)}
             name="Password"
-           />
+          />
         </div>
-          <Button sx={{mt: 2}} variant="contained" type="submit">LOGIN</Button>
+        <Button sx={{ mt: 2 }} variant="contained" type="submit">LOGIN</Button>
       </form>
     </div>
   )

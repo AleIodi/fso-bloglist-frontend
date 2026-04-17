@@ -1,14 +1,13 @@
 import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
 import BlogDetails from './BlogDetails'
 import { MemoryRouter } from 'react-router-dom'
 
 const blog = {
-    title: 'pluto',
-    author: 'pippo',
-    url: 'paperino',
-    likes: 1,
-    user: { username: 'creator', name: 'Creator User' }
+  title: 'pluto',
+  author: 'pippo',
+  url: 'paperino',
+  likes: 1,
+  user: { username: 'creator', name: 'Creator User' }
 }
 
 test('<BlogDetails /> renders only the blogs informations to unauthenticated user', () => {
